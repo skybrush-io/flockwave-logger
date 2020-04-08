@@ -171,7 +171,7 @@ def create_fancy_formatter() -> logging.Formatter:
 
 def create_plain_formatter() -> logging.Formatter:
     """Creates a colorful log formatter suitable for system journals."""
-    return PlainFormatter("{short_name}: {message}")
+    return PlainFormatter("{short_name}:{id}: {message}")
 
 
 styles = {"fancy": create_fancy_formatter, "plain": create_plain_formatter}
