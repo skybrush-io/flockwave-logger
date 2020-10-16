@@ -140,8 +140,10 @@ def create_fancy_formatter() -> logging.Formatter:
     """Creates a colorful log formatter suitable for terminal output."""
     log_colors = dict(default_log_colors)
     log_colors.update(
-        DEBUG="bold_black",
+        DEBUG="purple",
         INFO="reset",
+        inbound="bold_blue",
+        outbound="bold_green",
         request="bold_blue",
         response_success="bold_green",
         response_error="bold_red",
@@ -149,6 +151,8 @@ def create_fancy_formatter() -> logging.Formatter:
     )
     log_symbols = dict(default_log_symbols)
     log_symbols.update(
+        inbound=u"\u25c0",  # BLACK LEFT-POINTING TRIANGLE
+        outbound=u"\u25b6",  # BLACK RIGHT-POINTING TRIANGLE
         request=u"\u2190",  # LEFTWARDS ARROW
         response_success=u"\u2192",  # RIGHTWARDS ARROW
         response_error=u"\u2192",  # RIGHTWARDS ARROW

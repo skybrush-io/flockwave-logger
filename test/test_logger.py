@@ -1,6 +1,6 @@
 def main():
     import logging
-    from flockwave.logger import install, log
+    from flockwave.logger import install, log, log_hexdump
 
     install()
 
@@ -20,6 +20,9 @@ def main():
     log.info("test successful response", extra={"semantics": "response_success"})
     log.info("test error response", extra={"semantics": "response_error"})
     log.info("test notification", extra={"semantics": "notification"})
+
+    log_hexdump(log, b"\xde\xad\xbe\xef", address="123", direction="out")
+    log_hexdump(log, b"\x0b\xad\xca\xfe", address="123", direction="in")
 
 
 if __name__ == "__main__":

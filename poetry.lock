@@ -1,7 +1,7 @@
 [[package]]
 category = "main"
 description = "Cross-platform colored terminal text."
-marker = "os_name == \"nt\" or sys_platform == \"win32\""
+marker = "sys_platform == \"win32\" or os_name == \"nt\""
 name = "colorama"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
@@ -18,8 +18,16 @@ version = "4.1.0"
 [package.dependencies]
 colorama = "*"
 
+[[package]]
+category = "main"
+description = "dump binary data to hex format and restore from there"
+name = "hexdump"
+optional = false
+python-versions = "*"
+version = "3.3"
+
 [metadata]
-content-hash = "bd2d1693c3bf31fc9dab336ac9257d3a4aa86ac76bd10b2578aa4fcf852b1975"
+content-hash = "3728300596983d2be06ddc7253f40c1f3259a3bd850e22a92061fb12f1bbe902"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -30,4 +38,7 @@ colorama = [
 colorlog = [
     {file = "colorlog-4.1.0-py2.py3-none-any.whl", hash = "sha256:732c191ebbe9a353ec160d043d02c64ddef9028de8caae4cfa8bd49b6afed53e"},
     {file = "colorlog-4.1.0.tar.gz", hash = "sha256:30aaef5ab2a1873dec5da38fd6ba568fa761c9fa10b40241027fa3edea47f3d2"},
+]
+hexdump = [
+    {file = "hexdump-3.3.zip", hash = "sha256:d781a43b0c16ace3f9366aade73e8ad3a7bd5137d58f0b45ab2d3f54876f20db"},
 ]
