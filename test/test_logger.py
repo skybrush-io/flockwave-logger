@@ -22,7 +22,12 @@ def main():
     log.info("test notification", extra={"semantics": "notification"})
 
     log_hexdump(log, b"\xde\xad\xbe\xef", address="123", direction="out")
-    log_hexdump(log, b"\x0b\xad\xca\xfe", address="123", direction="in")
+    log_hexdump(
+        log,
+        b"\x0b\xad\xca\xfe\x0b\xad\xca\xfe\x0b\xad\xca\xfe\x0b\xad\xca\xfe\x0b\xad\xca\xfe",
+        address="123",
+        direction="in",
+    )
 
 
 if __name__ == "__main__":

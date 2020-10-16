@@ -26,9 +26,9 @@ def log_hexdump(
     log: logging.Logger,
     data: bytes,
     *,
-    address: Any,
-    direction: Optional[str],
-    level=logging.DEBUG,
+    address: Any = None,
+    direction: Optional[str] = None,
+    level: int = logging.DEBUG,
 ) -> None:
     """Helper function for logging hex dumps of raw bytes, typically associated
     to some network traffic.

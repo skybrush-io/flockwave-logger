@@ -37,7 +37,8 @@ class ColoredFormatter(logging.Formatter):
         *,
         log_colors: Optional[Dict[str, str]] = None,
         log_symbol_colors: Optional[Dict[str, str]] = None,
-        log_symbols: Optional[Dict[str, str]] = None
+        log_symbols: Optional[Dict[str, str]] = None,
+        line_continuation_padding: int = 0
     ):
         """
         Constructor.
@@ -50,6 +51,8 @@ class ColoredFormatter(logging.Formatter):
             log_symbol_colors: Mapping from log level names to colors to use for
                 the symbol of the log message
             log_symbols: Mapping from log level names to symbols
+            line_continuation_padding: number of spaces to put in front of
+                all but the first line in multi-line log messages
         """
         if fmt is None:
             fmt = "{log_color}{levelname}:{name}:{message}{reset}"
@@ -66,6 +69,11 @@ class ColoredFormatter(logging.Formatter):
         self.log_symbol_colors = {
             k: parse_colors(v) for k, v in log_symbol_colors.items()
         }
+
+        if line_continuation_padding > 0:
+            self._line_continuation = "\n" + (" " * line_continuation_padding)
+        else:
+            self._line_continuation = None
 
     def format(self, record):
         """Format a message from a log record object."""
@@ -85,6 +93,9 @@ class ColoredFormatter(logging.Formatter):
 
         if not message.endswith(escape_codes["reset"]):
             message += escape_codes["reset"]
+
+        if self._line_continuation and "\n" in record.message:
+            message = message.replace("\n", self._line_continuation)
 
         return message
 
@@ -170,6 +181,7 @@ def create_fancy_formatter() -> logging.Formatter:
         log_colors=log_colors,
         log_symbol_colors=log_symbol_colors,
         log_symbols=log_symbols,
+        line_continuation_padding=25,
     )
 
 
