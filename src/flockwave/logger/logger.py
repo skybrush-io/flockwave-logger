@@ -6,8 +6,16 @@ from functools import partial
 from typing import Any, Dict
 
 from .formatters import styles
+from .utils import nop
 
-__all__ = ("add_id_to_log", "log", "install", "Logger", "LoggerWithExtraData")
+__all__ = (
+    "add_id_to_log",
+    "log",
+    "install",
+    "Logger",
+    "LoggerWithExtraData",
+    "NullLogger",
+)
 
 
 Logger = logging.Logger
@@ -33,12 +41,11 @@ class LoggerWithExtraData:
         self._methods = {}
 
     def __getattr__(self, name):
-        if name in self._methods:
-            return self._methods
-        else:
+        method = self._methods.get(name)
+        if method is None:
             wrapped_method = getattr(self._log, name)
             method = self._methods[name] = partial(self._call, wrapped_method)
-            return method
+        return method
 
     def _call(self, func, *args, **kwds):
         extra = kwds.get("extra") or self._extra
@@ -51,6 +58,18 @@ class LoggerWithExtraData:
             kwds["extra"] = self._extra
 
         return func(*args, **kwds)
+
+
+class NullLogger:
+    """Dummy Python logger object that provides the same interface as other
+    logger objects but does nothing.
+    """
+
+    def __init__(self):
+        self._methods = {}
+
+    def __getattr__(self, name):
+        return nop
 
 
 def add_id_to_log(log: Logger, id: str):

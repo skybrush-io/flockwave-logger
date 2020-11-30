@@ -3,7 +3,7 @@ import logging
 from colorlog import default_log_colors
 from colorlog.colorlog import ColoredRecord
 from colorlog.escape_codes import escape_codes, parse_colors
-from functools import lru_cache
+from functools import lru_cache, partial
 from typing import Dict, Optional
 
 __all__ = ("styles",)
@@ -147,7 +147,9 @@ class PlainFormatter(logging.Formatter):
         return super().format(record)
 
 
-def create_fancy_formatter() -> logging.Formatter:
+def create_fancy_formatter(
+    show_name: bool = True, show_id: bool = True
+) -> logging.Formatter:
     """Creates a colorful log formatter suitable for terminal output."""
     log_colors = dict(default_log_colors)
     log_colors.update(
@@ -173,15 +175,27 @@ def create_fancy_formatter() -> logging.Formatter:
     )
     log_symbol_colors = dict(log_colors)
     log_symbol_colors.update(failure="bold_red", success="bold_green")
+
+    format_string = ["{log_symbol_color}{log_symbol}{reset} "]
+    line_continuation_padding = 2
+
+    if show_name:
+        format_string.append("{fg_cyan}{short_name:<11.11}{reset} ")
+        line_continuation_padding += 12
+    if show_id:
+        format_string.append("{fg_bold_black}{id:<10.10}{reset} ")
+        line_continuation_padding += 11
+
+    format_string.append("{log_color}{message}{reset}")
+
+    format_string = "".join(format_string)
+
     return ColoredFormatter(
-        "{log_symbol_color}{log_symbol}{reset} "
-        "{fg_cyan}{short_name:<11.11}{reset} "
-        "{fg_bold_black}{id:<10.10}{reset} "
-        "{log_color}{message}{reset}",
+        format_string,
         log_colors=log_colors,
         log_symbol_colors=log_symbol_colors,
         log_symbols=log_symbols,
-        line_continuation_padding=25,
+        line_continuation_padding=line_continuation_padding,
     )
 
 
@@ -190,4 +204,9 @@ def create_plain_formatter() -> logging.Formatter:
     return PlainFormatter("{short_name}:{id}: {message}")
 
 
-styles = {"fancy": create_fancy_formatter, "plain": create_plain_formatter}
+styles = {
+    "fancy": create_fancy_formatter,
+    "colorful": partial(create_fancy_formatter, show_id=False),
+    "plain": create_plain_formatter,
+    "symbolic": partial(create_fancy_formatter, show_id=False, show_name=False),
+}

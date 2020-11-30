@@ -1,4 +1,4 @@
-from .logger import add_id_to_log, install, log, Logger, LoggerWithExtraData
+from .logger import add_id_to_log, install, log, Logger, LoggerWithExtraData, NullLogger
 from .utils import format_hexdump, log_hexdump
 
 __all__ = (
@@ -9,4 +9,5 @@ __all__ = (
     "log_hexdump",
     "Logger",
     "LoggerWithExtraData",
+    "NullLogger",
 )

@@ -3,7 +3,7 @@ import logging
 from hexdump import hexdump
 from typing import Any, Optional
 
-__all__ = ("format_hexdump", "log_hexdump")
+__all__ = ("format_hexdump", "log_hexdump", "nop")
 
 
 def format_hexdump(data: bytes) -> str:
@@ -51,3 +51,10 @@ def log_hexdump(
         extra["id"] = address[len(address) - 10 :]
 
     log.log(level, message, extra=extra)
+
+
+def nop(*args, **kwds) -> None:
+    """Function that can be called with any number of arguments and that
+    does nothing.
+    """
+    pass
