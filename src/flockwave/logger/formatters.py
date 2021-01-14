@@ -204,9 +204,21 @@ def create_plain_formatter() -> logging.Formatter:
     return PlainFormatter("{short_name}:{id}: {message}")
 
 
+def create_json_formatter() -> logging.Formatter:
+    """Creates a JSON formatter suitable for archival and communication with
+    external processes that can parse JSON.
+
+    Each log message occupies one line.
+    """
+    from pythonjsonlogger import jsonlogger
+
+    return jsonlogger.JsonFormatter("%(levelname)s %(name)s %(message)s")
+
+
 styles = {
     "fancy": create_fancy_formatter,
     "colorful": partial(create_fancy_formatter, show_id=False),
     "plain": create_plain_formatter,
     "symbolic": partial(create_fancy_formatter, show_id=False, show_name=False),
+    "json": create_json_formatter,
 }
