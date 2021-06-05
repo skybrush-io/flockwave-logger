@@ -40,7 +40,7 @@ class LoggerWithExtraData:
         self._log = log
         self._methods = {}
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str):
         method = self._methods.get(name)
         if method is None:
             wrapped_method = getattr(self._log, name)
@@ -68,7 +68,7 @@ class NullLogger:
     def __init__(self):
         self._methods = {}
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str):
         return nop
 
 
@@ -86,7 +86,7 @@ def add_id_to_log(log: Logger, id: str):
     return LoggerWithExtraData(log, {"id": id})
 
 
-def create_formatter(style: str = "fancy"):
+def create_formatter(style: str = "fancy") -> logging.Formatter:
     """Creates a default log formatter according to the given style constant.
 
     Parameters:
@@ -98,7 +98,7 @@ def create_formatter(style: str = "fancy"):
     return factory()
 
 
-def install(level: int = logging.INFO, style: str = "fancy"):
+def install(level: int = logging.INFO, style: str = "fancy") -> None:
     """Install a default formatter and stream handler to the root logger of Python.
 
     This method can be used during startup to ensure that we can see the

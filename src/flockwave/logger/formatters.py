@@ -4,7 +4,7 @@ from colorlog import default_log_colors
 from colorlog.colorlog import ColoredRecord
 from colorlog.escape_codes import escape_codes, parse_colors
 from functools import lru_cache, partial
-from typing import Dict, Optional
+from typing import Any, Callable, Dict, Optional
 
 __all__ = ("styles",)
 
@@ -75,7 +75,7 @@ class ColoredFormatter(logging.Formatter):
         else:
             self._line_continuation = None
 
-    def format(self, record):
+    def format(self, record: Any) -> str:
         """Format a message from a log record object."""
         if not hasattr(record, "semantics"):
             record.semantics = None
@@ -99,7 +99,7 @@ class ColoredFormatter(logging.Formatter):
 
         return message
 
-    def get_preferred_color(self, record, source):
+    def get_preferred_color(self, record: Any, source: Dict[str, str]) -> str:
         """Return the preferred color for the given log record from the given
         color source.
         """
@@ -112,7 +112,7 @@ class ColoredFormatter(logging.Formatter):
                 color = semantic_color
         return color
 
-    def get_preferred_symbol(self, record):
+    def get_preferred_symbol(self, record: Any) -> str:
         """Return the preferred color for the given log record."""
         symbol = self.log_symbols.get(record.semantics)
         if symbol is not None:
@@ -137,7 +137,7 @@ class PlainFormatter(logging.Formatter):
 
         super().__init__(fmt, datefmt, style="{")
 
-    def format(self, record):
+    def format(self, record: Any) -> str:
         """Format a message from a log record object."""
         if not hasattr(record, "id"):
             record.id = ""
@@ -200,7 +200,7 @@ def create_fancy_formatter(
 
 
 def create_plain_formatter() -> logging.Formatter:
-    """Creates a colorful log formatter suitable for system journals."""
+    """Creates a log formatter suitable for system journals."""
     return PlainFormatter("{short_name}:{id}: {message}")
 
 
@@ -215,7 +215,7 @@ def create_json_formatter() -> logging.Formatter:
     return jsonlogger.JsonFormatter("%(levelname)s %(name)s %(message)s")
 
 
-styles = {
+styles: Dict[str, Callable[[], logging.Formatter]] = {
     "fancy": create_fancy_formatter,
     "colorful": partial(create_fancy_formatter, show_id=False),
     "plain": create_plain_formatter,
