@@ -70,10 +70,12 @@ class ColoredFormatter(logging.Formatter):
             k: parse_colors(v) for k, v in log_symbol_colors.items()
         }
 
-        if line_continuation_padding > 0:
-            self._line_continuation = "\n" + (" " * line_continuation_padding)
-        else:
-            self._line_continuation = None
+        self._line_continuation: Optional[str] = (
+            "\n" + (" " * line_continuation_padding)
+            if line_continuation_padding > 0
+            else None
+        )
+        self._last_formatted_time: Optional[str] = None
 
     def format(self, record: Any) -> str:
         """Format a message from a log record object."""
@@ -82,13 +84,23 @@ class ColoredFormatter(logging.Formatter):
         if not hasattr(record, "id"):
             record.id = ""
 
+        formatted_time = self.formatTime(record, "[%H:%M:%S]")
+
         record = ColoredRecord(record)
         record.log_color = self.get_preferred_color(record, self.log_colors)
         record.log_symbol = self.get_preferred_symbol(record)
         record.log_symbol_color = (
             self.get_preferred_color(record, self.log_symbol_colors) or record.log_color
         )
+        record.time_color = self.log_colors.get("time", "")
         record.short_name = _get_short_name_for_logger(record.name)
+
+        if formatted_time != self._last_formatted_time:
+            record.time = formatted_time
+            self._last_formatted_time = formatted_time
+        else:
+            record.time = "          "
+
         message = super().format(record)
 
         if not message.endswith(escape_codes["reset"]):
@@ -148,7 +160,7 @@ class PlainFormatter(logging.Formatter):
 
 
 def create_fancy_formatter(
-    show_name: bool = True, show_id: bool = True
+    show_name: bool = True, show_id: bool = True, show_timestamp: bool = True
 ) -> logging.Formatter:
     """Creates a colorful log formatter suitable for terminal output."""
     log_colors = dict(default_log_colors)
@@ -161,6 +173,7 @@ def create_fancy_formatter(
         response_success="bold_green",
         response_error="bold_red",
         notification="bold_yellow",
+        time="thin_white",
     )
     log_symbols = dict(default_log_symbols)
     log_symbols.update(
@@ -176,9 +189,14 @@ def create_fancy_formatter(
     log_symbol_colors = dict(log_colors)
     log_symbol_colors.update(failure="bold_red", success="bold_green")
 
-    format_string = ["{log_symbol_color}{log_symbol}{reset} "]
+    format_string = []
     line_continuation_padding = 2
 
+    if show_timestamp:
+        format_string.append("{time_color}{time}{reset} ")
+        line_continuation_padding += 11
+
+    format_string.append("{log_symbol_color}{log_symbol}{reset} ")
     if show_name:
         format_string.append("{fg_cyan}{short_name:<11.11}{reset} ")
         line_continuation_padding += 12
