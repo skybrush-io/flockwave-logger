@@ -1,4 +1,5 @@
 import logging
+import platform
 
 from colorlog import default_log_colors
 from colorlog.colorlog import ColoredRecord
@@ -176,16 +177,32 @@ def create_fancy_formatter(
         time="thin_white",
     )
     log_symbols = dict(default_log_symbols)
-    log_symbols.update(
-        inbound=u"\u25c0",  # BLACK LEFT-POINTING TRIANGLE
-        outbound=u"\u25b6",  # BLACK RIGHT-POINTING TRIANGLE
-        request=u"\u2190",  # LEFTWARDS ARROW
-        response_success=u"\u2192",  # RIGHTWARDS ARROW
-        response_error=u"\u2192",  # RIGHTWARDS ARROW
-        notification=u"\u2192",  # RIGHTWARDS ARROW
-        success=u"\u2714",  # CHECK MARK
-        failure=u"\u2718",  # BALLOT X
-    )
+
+    if platform.system() == "Windows" or True:
+        # Use normal ASCII characters on Windows
+        log_symbols.update(
+            inbound="<",
+            outbound=">",
+            request="<",
+            response_success=">",
+            response_error=">",
+            notification=">",
+            success=u"\u221a",  # SQUARE ROOT
+            failure=u"\u00d7",  # MULTIPLICATION SIGN
+        )
+    else:
+        # Use nicer Unicode symbols everywhere else
+        log_symbols.update(
+            inbound=u"\u25c0",  # BLACK LEFT-POINTING TRIANGLE
+            outbound=u"\u25b6",  # BLACK RIGHT-POINTING TRIANGLE
+            request=u"\u2190",  # LEFTWARDS ARROW
+            response_success=u"\u2192",  # RIGHTWARDS ARROW
+            response_error=u"\u2192",  # RIGHTWARDS ARROW
+            notification=u"\u2192",  # RIGHTWARDS ARROW
+            success=u"\u2714",  # CHECK MARK
+            failure=u"\u2718",  # BALLOT X
+        )
+
     log_symbol_colors = dict(log_colors)
     log_symbol_colors.update(failure="bold_red", success="bold_green")
 
