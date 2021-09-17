@@ -178,7 +178,7 @@ def create_fancy_formatter(
     )
     log_symbols = dict(default_log_symbols)
 
-    if platform.system() == "Windows" or True:
+    if platform.system() == "Windows":
         # Use normal ASCII characters on Windows
         log_symbols.update(
             inbound="<",
