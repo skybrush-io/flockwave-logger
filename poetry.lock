@@ -42,11 +42,11 @@ reference = "collmot"
 
 [[package]]
 name = "python-json-logger"
-version = "2.0.1"
+version = "2.0.2"
 description = "A python library adding a json log formatter"
 category = "main"
 optional = false
-python-versions = ">=3.4"
+python-versions = ">=3.5"
 
 [package.source]
 type = "legacy"
@@ -56,7 +56,7 @@ reference = "collmot"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "3a7bc67b34f5a802780d88c4d534ebe1bdd92ecfd0f365a2fe0f5a46ad09a476"
+content-hash = "170eec3b08db69258f1136d98bf8f2d863a6dd40e7402fcda4ceffbca860fae6"
 
 [metadata.files]
 colorama = [
@@ -71,5 +71,6 @@ hexdump = [
     {file = "hexdump-3.3.zip", hash = "sha256:d781a43b0c16ace3f9366aade73e8ad3a7bd5137d58f0b45ab2d3f54876f20db"},
 ]
 python-json-logger = [
-    {file = "python-json-logger-2.0.1.tar.gz", hash = "sha256:f26eea7898db40609563bed0a7ca11af12e2a79858632706d835a0f961b7d398"},
+    {file = "python-json-logger-2.0.2.tar.gz", hash = "sha256:202a4f29901a4b8002a6d1b958407eeb2dd1d83c18b18b816f5b64476dde9096"},
+    {file = "python_json_logger-2.0.2-py3-none-any.whl", hash = "sha256:99310d148f054e858cd5f4258794ed6777e7ad2c3fd7e1c1b527f1cba4d08420"},
 ]

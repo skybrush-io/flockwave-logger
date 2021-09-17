@@ -12,7 +12,7 @@ python = "^3.7"
 colorlog = "^5.0.1"
 colorama = { version = "^0.4.3", markers = "os_name == 'nt'" }
 hexdump = "^3.3"
-python-json-logger = "^2.0.1"
+python-json-logger = "^2.0.2"
 
 [tool.poetry.dev-dependencies]
 
