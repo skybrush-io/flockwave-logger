@@ -63,6 +63,8 @@ class ColoredFormatter(logging.Formatter):
         if log_colors is None:
             log_colors = default_log_colors
 
+        assert log_colors is not None
+
         self.log_colors = {k: parse_colors(v) for k, v in log_colors.items()}
         self.log_symbols = (
             log_symbols if log_symbols is not None else default_log_symbols
@@ -80,8 +82,6 @@ class ColoredFormatter(logging.Formatter):
 
     def format(self, record: Any) -> str:
         """Format a message from a log record object."""
-        if not hasattr(record, "semantics"):
-            record.semantics = None
         if not hasattr(record, "id"):
             record.id = ""
 
@@ -120,14 +120,14 @@ class ColoredFormatter(logging.Formatter):
         if record.levelname == "INFO":
             # For the INFO level, we may override the color with the
             # semantics of the message.
-            semantic_color = source.get(record.semantics)
+            semantic_color = source.get(getattr(record, "semantics", None))
             if semantic_color is not None:
                 color = semantic_color
         return color
 
     def get_preferred_symbol(self, record: Any) -> str:
         """Return the preferred color for the given log record."""
-        symbol = self.log_symbols.get(record.semantics)
+        symbol = self.log_symbols.get(getattr(record, "semantics", None))
         if symbol is not None:
             return symbol
         else:
@@ -235,7 +235,9 @@ def create_fancy_formatter(
 
 
 def create_plain_formatter() -> logging.Formatter:
-    """Creates a log formatter suitable for system journals."""
+    """Creates a log formatter suitable for system journals. It is assumed
+    that the system journal adds the timestamp in front of the message.
+    """
     return PlainFormatter("{short_name}:{id}: {message}")
 
 
@@ -250,10 +252,21 @@ def create_json_formatter() -> logging.Formatter:
     return jsonlogger.JsonFormatter("%(levelname)s %(name)s %(message)s")
 
 
+def create_tabular_formatter(show_timestamp: bool = True) -> logging.Formatter:
+    """Creates a log formatter that separates the basic fields with tab
+    characters.
+    """
+    parts = ["{levelname}", "{name}", "{id}", "{message}"]
+    if show_timestamp:
+        parts.insert(0, "{asctime}.{msecs:03.0f}")
+    return PlainFormatter(fmt="\t".join(parts), datefmt="%Y-%m-%d %H:%M:%S")
+
+
 styles: Dict[str, Callable[[], logging.Formatter]] = {
     "fancy": create_fancy_formatter,
     "colorful": partial(create_fancy_formatter, show_id=False),
     "plain": create_plain_formatter,
     "symbolic": partial(create_fancy_formatter, show_id=False, show_name=False),
+    "tabular": create_tabular_formatter,
     "json": create_json_formatter,
 }
