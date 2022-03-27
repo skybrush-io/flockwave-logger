@@ -1,7 +1,7 @@
 flockwave-logger
 ================
 
-Basic colored logger for Skybrush server and related projects
+Basic colorful logger for Skybrush server and related projects
 
 Usage
 -----
