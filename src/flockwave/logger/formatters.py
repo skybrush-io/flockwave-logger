@@ -11,11 +11,11 @@ __all__ = ("styles",)
 
 
 default_log_symbols = {
-    "DEBUG": u" ",
-    "INFO": u" ",
-    "WARNING": u"\u25b2",  # BLACK UP-POINTING TRIANGLE
-    "ERROR": u"\u25cf",  # BLACK CIRCLE
-    "CRITICAL": u"\u25cf",  # BLACK CIRCLE
+    "DEBUG": " ",
+    "INFO": " ",
+    "WARNING": "\u25b2",  # BLACK UP-POINTING TRIANGLE
+    "ERROR": "\u25cf",  # BLACK CIRCLE
+    "CRITICAL": "\u25cf",  # BLACK CIRCLE
 }
 
 
@@ -187,20 +187,20 @@ def create_fancy_formatter(
             response_success=">",
             response_error=">",
             notification=">",
-            success=u"\u221a",  # SQUARE ROOT
-            failure=u"\u00d7",  # MULTIPLICATION SIGN
+            success="\u221a",  # SQUARE ROOT
+            failure="\u00d7",  # MULTIPLICATION SIGN
         )
     else:
         # Use nicer Unicode symbols everywhere else
         log_symbols.update(
-            inbound=u"\u25c0",  # BLACK LEFT-POINTING TRIANGLE
-            outbound=u"\u25b6",  # BLACK RIGHT-POINTING TRIANGLE
-            request=u"\u2190",  # LEFTWARDS ARROW
-            response_success=u"\u2192",  # RIGHTWARDS ARROW
-            response_error=u"\u2192",  # RIGHTWARDS ARROW
-            notification=u"\u2192",  # RIGHTWARDS ARROW
-            success=u"\u2714",  # CHECK MARK
-            failure=u"\u2718",  # BALLOT X
+            inbound="\u25c0",  # BLACK LEFT-POINTING TRIANGLE
+            outbound="\u25b6",  # BLACK RIGHT-POINTING TRIANGLE
+            request="\u2190",  # LEFTWARDS ARROW
+            response_success="\u2192",  # RIGHTWARDS ARROW
+            response_error="\u2192",  # RIGHTWARDS ARROW
+            notification="\u2192",  # RIGHTWARDS ARROW
+            success="\u2714",  # CHECK MARK
+            failure="\u2718",  # BALLOT X
         )
 
     log_symbol_colors = dict(log_colors)
