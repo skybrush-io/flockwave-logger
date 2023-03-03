@@ -27,6 +27,11 @@ name = "fury"
 url = "https://pypi.fury.io/skybrush/"
 secondary = true
 
+[tool.ruff]
+ignore = ["B905", "E402", "E501"]
+line-length = 80
+select = ["B", "C", "E", "F", "W"]
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
