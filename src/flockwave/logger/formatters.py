@@ -2,7 +2,7 @@ import logging
 import platform
 
 from colorlog import default_log_colors
-from colorlog.colorlog import ColoredRecord
+from colorlog.formatter import ColoredRecord
 from colorlog.escape_codes import escape_codes, parse_colors
 from functools import lru_cache, partial
 from typing import Any, Callable, Dict, Optional
@@ -80,14 +80,14 @@ class ColoredFormatter(logging.Formatter):
         )
         self._last_formatted_time: Optional[str] = None
 
-    def format(self, record: Any) -> str:
+    def formatMessage(self, record: Any) -> str:
         """Format a message from a log record object."""
         if not hasattr(record, "id"):
             record.id = ""
 
         formatted_time = self.formatTime(record, "[%H:%M:%S]")
 
-        record = ColoredRecord(record)
+        record = ColoredRecord(record, escape_codes)
         record.log_color = self.get_preferred_color(record, self.log_colors)
         record.log_symbol = self.get_preferred_symbol(record)
         record.log_symbol_color = (
@@ -102,7 +102,7 @@ class ColoredFormatter(logging.Formatter):
         else:
             record.time = "          "
 
-        message = super().format(record)
+        message = super().formatMessage(record)
 
         if not message.endswith(escape_codes["reset"]):
             message += escape_codes["reset"]
@@ -218,7 +218,7 @@ def create_fancy_formatter(
         format_string.append("{fg_cyan}{short_name:<11.11}{reset} ")
         line_continuation_padding += 12
     if show_id:
-        format_string.append("{fg_bold_black}{id:<10.10}{reset} ")
+        format_string.append("{light_black}{id:<10.10}{reset} ")
         line_continuation_padding += 11
 
     format_string.append("{log_color}{message}{reset}")
