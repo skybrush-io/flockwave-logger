@@ -70,7 +70,7 @@ class ColoredFormatter(logging.Formatter):
             log_symbols if log_symbols is not None else default_log_symbols
         )
         self.log_symbol_colors = {
-            k: parse_colors(v) for k, v in log_symbol_colors.items()
+            k: parse_colors(v) for k, v in (log_symbol_colors or {}).items()
         }
 
         self._line_continuation: Optional[str] = (
@@ -120,14 +120,14 @@ class ColoredFormatter(logging.Formatter):
         if record.levelname == "INFO":
             # For the INFO level, we may override the color with the
             # semantics of the message.
-            semantic_color = source.get(getattr(record, "semantics", None))
+            semantic_color = source.get(getattr(record, "semantics", None))  # type: ignore
             if semantic_color is not None:
                 color = semantic_color
         return color
 
     def get_preferred_symbol(self, record: Any) -> str:
         """Return the preferred color for the given log record."""
-        symbol = self.log_symbols.get(getattr(record, "semantics", None))
+        symbol = self.log_symbols.get(getattr(record, "semantics", None))  # type: ignore
         if symbol is not None:
             return symbol
         else:
