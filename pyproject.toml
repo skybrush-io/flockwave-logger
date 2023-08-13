@@ -3,9 +3,7 @@ name = "flockwave-logger"
 version = "1.9.0"
 description = "Basic colored logger for Skybrush server and related projects"
 authors = ["Tamas Nepusz <tamas@collmot.com>"]
-packages = [
-    { include = "flockwave", from = "src" }
-]
+packages = [{ include = "flockwave", from = "src" }]
 license = "MIT"
 
 [tool.poetry.dependencies]
@@ -15,17 +13,21 @@ colorama = { version = "^0.4.4", markers = "os_name == 'nt'" }
 hexdump = "^3.3"
 python-json-logger = "^2.0.2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
 
 [[tool.poetry.source]]
 name = "collmot"
 url = "https://pypi.collmot.com/simple/"
-secondary = true
+priority = "explicit"
 
 [[tool.poetry.source]]
 name = "fury"
 url = "https://pypi.fury.io/skybrush/"
-secondary = true
+priority = "supplemental"
 
 [tool.ruff]
 ignore = ["B905", "E402", "E501"]
