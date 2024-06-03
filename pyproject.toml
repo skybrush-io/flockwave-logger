@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flockwave-logger"
-version = "1.9.0"
+version = "2.0.0"
 description = "Basic colored logger for Skybrush server and related projects"
 authors = ["Tamas Nepusz <tamas@collmot.com>"]
 packages = [{ include = "flockwave", from = "src" }]
