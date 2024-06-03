@@ -7,7 +7,7 @@ packages = [{ include = "flockwave", from = "src" }]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
 colorlog = "^6.7.0"
 colorama = { version = "^0.4.4", markers = "os_name == 'nt'" }
 hexdump = "^3.3"

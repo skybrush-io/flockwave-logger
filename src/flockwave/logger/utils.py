@@ -1,9 +1,11 @@
 import logging
 
 from hexdump import hexdump
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 __all__ = ("format_hexdump", "log_hexdump", "nop")
+
+Direction = Literal["in", "out"]
 
 
 def format_hexdump(data: bytes) -> str:
@@ -16,29 +18,19 @@ def format_hexdump(data: bytes) -> str:
         the formatted hex dump
     """
     result = []
-    for line in hexdump(data, result="generator"):
+    for line in hexdump(data, result="generator"):  # type: ignore
         _, _, line = line.partition(" ")
         result.append(line)
     return "\n".join(result)
 
 
-def log_hexdump(
-    log: logging.Logger,
-    data: bytes,
-    *,
+def create_extra_args_for_logging_traffic(
     address: Any = None,
-    direction: Optional[str] = None,
-    level: int = logging.DEBUG,
-) -> None:
-    """Helper function for logging hex dumps of raw bytes, typically associated
-    to some network traffic.
-
-    Parameters:
-        log: the logger to log the data to
-        data: the data to log
+    direction: Optional[Direction] = None,
+) -> dict[str, str]:
+    """Creates the "extra" dict for a log entry that logs communication from
+    the given address in the given direction.
     """
-    message = format_hexdump(data)
-
     extra = {}
     if direction == "in":
         extra["semantics"] = "inbound"
@@ -50,6 +42,26 @@ def log_hexdump(
             address = repr(address)
         extra["id"] = address[len(address) - 10 :]
 
+    return extra
+
+
+def log_hexdump(
+    log: logging.Logger,
+    data: bytes,
+    *,
+    address: Any = None,
+    direction: Optional[Direction] = None,
+    level: int = logging.DEBUG,
+) -> None:
+    """Helper function for logging hex dumps of raw bytes, typically associated
+    to some network traffic.
+
+    Parameters:
+        log: the logger to log the data to
+        data: the data to log
+    """
+    message = format_hexdump(data)
+    extra = create_extra_args_for_logging_traffic(address, direction)
     log.log(level, message, extra=extra)
 
 

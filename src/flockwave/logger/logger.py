@@ -6,6 +6,7 @@ from functools import partial
 from typing import Any, Dict
 
 from .formatters import styles
+from .integrations import install_integrations
 from .utils import nop
 
 __all__ = (
@@ -104,6 +105,9 @@ def install(level: int = logging.INFO, style: str = "fancy") -> None:
     This method can be used during startup to ensure that we can see the
     log messages on the console nicely.
 
+    Also installs intengrations for other custom packages if the requirements
+    are met.
+
     Parameters:
         level: the minimum logging level of messages that actually end up in the
             log
@@ -118,3 +122,5 @@ def install(level: int = logging.INFO, style: str = "fancy") -> None:
 
     root_logger.addHandler(handler)
     root_logger.setLevel(level)
+
+    install_integrations(level)
