@@ -39,7 +39,7 @@ class ColoredFormatter(logging.Formatter):
         log_colors: Optional[Dict[str, str]] = None,
         log_symbol_colors: Optional[Dict[str, str]] = None,
         log_symbols: Optional[Dict[str, str]] = None,
-        line_continuation_padding: int = 0
+        line_continuation_padding: int = 0,
     ):
         """
         Constructor.
