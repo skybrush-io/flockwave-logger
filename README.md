@@ -1,10 +1,8 @@
-flockwave-logger
-================
+# flockwave-logger
 
 Basic colorful logger for Skybrush server and related projects
 
-Usage
------
+## Usage
 
 ```python
 from flockwave.logger import install
@@ -14,21 +12,20 @@ install(style="fancy")
 
 Available logging styles:
 
-* `fancy`, `colorful`, `symbolic` -- colorful human-readable logging styles for
+- `fancy`, `colorful`, `symbolic` -- colorful human-readable logging styles for
   terminal processes
 
-* `plain` -- plain text logging style for monochrome terminals
+- `plain` -- plain text logging style for monochrome terminals
 
-* `tabular` -- plain text logging style where individual fields are separated
+- `tabular` -- plain text logging style where individual fields are separated
   by tabs
 
-* `json` -- machine-readable logging format based on JSON records, one entry
+- `json` -- machine-readable logging format based on JSON records, one entry
   per line
 
-License
--------
+## License
 
-Copyright 2020-2022 CollMot Robotics Ltd.
+Copyright 2020-2025 CollMot Robotics Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

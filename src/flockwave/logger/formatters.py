@@ -247,9 +247,9 @@ def create_json_formatter() -> logging.Formatter:
 
     Each log message occupies one line.
     """
-    from pythonjsonlogger import jsonlogger
+    from pythonjsonlogger.json import JsonFormatter
 
-    return jsonlogger.JsonFormatter("%(levelname)s %(name)s %(message)s")
+    return JsonFormatter("%(levelname)s %(name)s %(message)s")
 
 
 def create_tabular_formatter(show_timestamp: bool = True) -> logging.Formatter:

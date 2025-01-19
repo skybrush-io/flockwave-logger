@@ -1,7 +1,8 @@
 import logging
 
-from hexdump import hexdump
 from typing import Any, Literal, Optional
+
+from .hexdump import hexdump
 
 __all__ = ("format_hexdump", "log_hexdump", "nop")
 
