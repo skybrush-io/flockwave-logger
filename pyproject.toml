@@ -6,13 +6,13 @@ authors = [{ name = "Tamas Nepusz", email = "tamas@collmot.com" }]
 license = "MIT"
 requires-python = ">=3.9"
 dependencies = [
-    "colorlog>=6.9.0",
-    "colorama>=0.4.6; os_name == 'nt'",
-    "python-json-logger>=3.2.1",
+  "colorlog>=6.9.0",
+  "colorama>=0.4.6; os_name == 'nt'",
+  "python-json-logger>=3.2.1",
 ]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/flockwave"]
+[tool.uv.build-backend]
+module-name = "flockwave.logger"
 
 [[tool.uv.index]]
 name = "collmot"
@@ -20,14 +20,15 @@ url = "https://pypi.collmot.com/simple/"
 publish-url = "https://pypi.collmot.com/"
 explicit = true
 
-[[tool.poetry.source]]
+[[tool.uv.index]]
 name = "fury"
 url = "https://pypi.fury.io/skybrush/"
+publish-url = "https://pypi.fury.io/skybrush/"
 
 [tool.ruff]
 lint.ignore = ["B905", "E402", "E501"]
 lint.select = ["B", "C", "E", "F", "W"]
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build"]
+build-backend = "uv_build"
