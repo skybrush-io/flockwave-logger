@@ -1,6 +1,6 @@
 [project]
 name = "flockwave-logger"
-version = "2.1.0"
+version = "2.1.1"
 description = "Basic colored logger for Skybrush server and related projects"
 authors = [{ name = "Tamas Nepusz", email = "tamas@collmot.com" }]
 license = "MIT"
