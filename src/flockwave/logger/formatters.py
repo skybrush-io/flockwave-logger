@@ -218,8 +218,8 @@ def create_fancy_formatter(
         format_string.append("{fg_cyan}{short_name:<11.11}{reset} ")
         line_continuation_padding += 12
     if show_id:
-        format_string.append("{light_black}{id:<10.10}{reset} ")
-        line_continuation_padding += 11
+        format_string.append("{light_black}{id:<12.12}{reset} ")
+        line_continuation_padding += 13
 
     format_string.append("{log_color}{message}{reset}")
 
